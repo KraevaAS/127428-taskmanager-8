@@ -1,5 +1,7 @@
 'use strict';
 
+const elem = document.querySelector(`.main__filter`);
+
 const createFilterHTML = function (name, count, isChecked = false) {
   return `
 <input type="radio"
@@ -14,13 +16,33 @@ ${name.toUpperCase()} <span class="filter__${name.toLowerCase()}-count">${count}
       `;
 };
 
+const filtersArray = [
+  {name: `all`,
+    count: 15,
+    isChecked: true},
+  {name: `overdue`,
+    count: 0,
+    isChecked: false},
+  {name: `today`,
+    count: 0,
+    isChecked: false},
+  {name: `favorites`,
+    count: 7,
+    isChecked: false},
+  {name: `repeating`,
+    count: 2,
+    isChecked: false},
+  {name: `tag`,
+    count: 6,
+    isChecked: false},
+  {name: `archive`,
+    count: 115,
+    isChecked: false}
+];
 
-const elem = document.querySelector(`.main__filter`);
 
-elem.insertAdjacentHTML(`beforeEnd`, createFilterHTML(`all`, 15, true));
-elem.insertAdjacentHTML(`beforeEnd`, createFilterHTML(`overdue`, 0));
-elem.insertAdjacentHTML(`beforeEnd`, createFilterHTML(`today`, 0));
-elem.insertAdjacentHTML(`beforeEnd`, createFilterHTML(`favorites`, 7));
-elem.insertAdjacentHTML(`beforeEnd`, createFilterHTML(`repeating`, 2));
-elem.insertAdjacentHTML(`beforeEnd`, createFilterHTML(`tag`, 6));
-elem.insertAdjacentHTML(`beforeEnd`, createFilterHTML(`archive`, 115));
+for (let i = 0; i < filtersArray.length; i++) {
+  elem.insertAdjacentHTML(`beforeEnd`, createFilterHTML(filtersArray[i].name, filtersArray[i].count, filtersArray[i].isChecked));
+}
+
+
