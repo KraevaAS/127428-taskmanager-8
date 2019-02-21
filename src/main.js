@@ -63,21 +63,106 @@ for (let i = 0; i < filtersArray.length; i++) {
   filtersContainer.insertAdjacentHTML(`beforeEnd`, createFilterHTML(filtersArray[i].name, filtersArray[i].count, filtersArray[i].isChecked));
 }
 
-const cardArray =
+const cardArray = [
   {
     isEdit: true,
     isCardRepeat: true,
+    isDeadline: false,
     text: `Here is a card with filling data`,
     imgUrl: `img/sample-img.jpg`,
     isImgEmpty: false,
-    isDate: `yes`,
+    isDate: true,
     date: `23 September`,
     time: `11:15 PM`,
-    repeat: `yes`,
+    isRepeat: true,
     hashtag: `#repeat`,
-    color: `yellow`,
+    color: `yellow`
+  },
+  {
+    isEdit: false,
+    isCardRepeat: true,
     isDeadline: false,
-  };
+    text: `Here is a card with filling data`,
+    imgUrl: `img/sample-img.jpg`,
+    isImgEmpty: false,
+    isDate: true,
+    date: `23 September`,
+    time: `11:15 PM`,
+    isRepeat: true,
+    hashtag: `#repeat`,
+    color: `yellow`
+  },
+  {
+    isEdit: false,
+    isCardRepeat: true,
+    isDeadline: true,
+    text: `Here is a card with filling data`,
+    imgUrl: `img/sample-img.jpg`,
+    isImgEmpty: false,
+    isDate: true,
+    date: `23 September`,
+    time: `11:15 PM`,
+    isRepeat: true,
+    hashtag: `#repeat`,
+    color: `yellow`
+  },
+  {
+    isEdit: false,
+    isCardRepeat: true,
+    isDeadline: false,
+    text: `Here is a card with filling data`,
+    imgUrl: `img/sample-img.jpg`,
+    isImgEmpty: false,
+    isDate: true,
+    date: `23 September`,
+    time: `11:15 PM`,
+    isRepeat: true,
+    hashtag: `#repeat`,
+    color: `yellow`
+  },
+  {
+    isEdit: false,
+    isCardRepeat: true,
+    isDeadline: false,
+    text: `Here is a card with filling data`,
+    imgUrl: `img/sample-img.jpg`,
+    isImgEmpty: false,
+    isDate: true,
+    date: `23 September`,
+    time: `11:15 PM`,
+    isRepeat: true,
+    hashtag: `#repeat`,
+    color: `yellow`
+  },
+  {
+    isEdit: false,
+    isCardRepeat: true,
+    isDeadline: false,
+    text: `Here is a card with filling data`,
+    imgUrl: `img/sample-img.jpg`,
+    isImgEmpty: false,
+    isDate: true,
+    date: `23 September`,
+    time: `11:15 PM`,
+    isRepeat: true,
+    hashtag: `#repeat`,
+    color: `yellow`
+  },
+  {
+    isEdit: false,
+    isCardRepeat: true,
+    isDeadline: false,
+    text: `Here is a card with filling data`,
+    imgUrl: `img/sample-img.jpg`,
+    isImgEmpty: false,
+    isDate: true,
+    date: `23 September`,
+    time: `11:15 PM`,
+    isRepeat: true,
+    hashtag: `#repeat`,
+    color: `yellow`
+  }
+];
 
 const createCardControlBtns = function (name, isDisabled = false) {
   return `
@@ -98,7 +183,7 @@ const createCardControlBar = () => {
 `;
 };
 
-const createCardTextArea = () => {
+const createCardTextArea = (card) => {
   return `
 <div class="card__textarea-wrap">
   <label>
@@ -106,34 +191,34 @@ const createCardTextArea = () => {
   class="card__text"
   placeholder="Start typing your text here..."
   name="text">
-${cardArray.text}
+${card.text}
 </textarea>
   </label>
 </div>
   `;
 };
 
-const createCardImg = () => {
+const createCardImg = (card) => {
   return `
-<label class="card__img-wrap ${cardArray.isImgEmpty ? `card__img-wrap--empty` : ``}">
+<label class="card__img-wrap ${card.isImgEmpty ? `card__img-wrap--empty` : ``}">
   <input
     type="file"
     class="card__img-input visually-hidden"
     name="img"/>
   <img
-    src="${cardArray.imgUrl}"
+    src="${card.imgUrl}"
     alt="task picture"
     class="card__img"/>
 </label>
   `;
 };
 
-const createCardDates = () => {
+const createCardDates = (card) => {
   return `
 <button class="card__date-deadline-toggle" type="button">
   date:
   <span class="card__date-satus">
-    ${cardArray.isDate}
+    ${card.isDate ? `yes` : `no`}
   </span>
 </button>
 <fieldset class="card__date-deadline">
@@ -141,17 +226,17 @@ const createCardDates = () => {
     <input
       class="card__date"
       type="text"
-      plaeholder="${cardArray.date}"
+      plaeholder="${card.date}"
       name="date"
-      value="${cardArray.date}"/>
+      value="${card.date}"/>
   </label>
   <label class="card__input-deadline-wrap">
     <input
       class="card__time"
       type="text"
-      placeholder="${cardArray.time}"
+      placeholder="${card.time}"
       name="time"
-      value="${cardArray.time}"/>
+      value="${card.time}"/>
   </label>
 </fieldset>
   `;
@@ -176,12 +261,12 @@ const getWeekDays = function () {
   return getWeek;
 };
 
-const createRepeatToggle = function () {
+const createRepeatToggle = function (card) {
   return `
 <button class="card__repeat-toggle" type="button">
   repeat:
   <span class="card__repeat-status">
-    ${cardArray.repeat}
+    ${card.isRepeat ? `yes` : `no`}
   </span>
 </button>
 <fieldset class="card__repeat-days">
@@ -192,7 +277,7 @@ const createRepeatToggle = function () {
   `;
 };
 
-const createHashtagList = () => {
+const createHashtagList = (card) => {
   return `<div class="card__hashtag">
   <div class="card__hashtag-list">
 <span class="card__hashtag-inner">
@@ -202,7 +287,7 @@ const createHashtagList = () => {
   value="repeat"
   class="card__hashtag-hidden-input"/>
 <button type="button" class="card__hashtag-name">
-${cardArray.hashtag}
+${card.hashtag}
 </button>
 <button type="button" class="card__hashtag-delete">
 delete
@@ -255,14 +340,14 @@ const createStatusBtns = () => {
 `;
 };
 
-const createTaskHTML = function () {
+const createTaskHTML = function (item) {
   return `
 <article
   class="card 
-  ${cardArray.isEdit ? `card--edit` : ``}
-  ${cardArray.isCardRepeat ? `card--repeat` : ``}
-  card--${cardArray.color}
-  ${cardArray.isDeadline ? `card--deadline` : ``}">
+  ${item.isEdit ? `card--edit` : ``}
+  ${item.isCardRepeat ? `card--repeat` : ``}
+  card--${item.color}
+  ${item.isDeadline ? `card--deadline` : ``}">
   <form class="card__form" method="get">
     <div class="card__inner">
       <div class="card__control">
@@ -271,16 +356,16 @@ const createTaskHTML = function () {
       ${createCardControlBtns(`favorites`, true)}
       </div>
       ${createCardControlBar()}
-      ${createCardTextArea()}
+      ${createCardTextArea(item)}
       <div class="card__settings">
         <div class="card__details">
           <div class="card__dates">
-            ${createCardDates()}
-            ${createRepeatToggle()}
+            ${createCardDates(item)}
+            ${createRepeatToggle(item)}
           </div>
-          ${createHashtagList()}
+          ${createHashtagList(item)}
         </div>
-        ${createCardImg()}
+        ${createCardImg(item)}
         ${createCardColors()}
       </div>
       ${createStatusBtns()}
@@ -290,4 +375,6 @@ const createTaskHTML = function () {
 `;
 };
 
-tasksContainer.insertAdjacentHTML(`beforeEnd`, createTaskHTML());
+for (let i = 0; i < cardArray.length; i++) {
+  tasksContainer.insertAdjacentHTML(`beforeEnd`, createTaskHTML(cardArray[i]));
+}
