@@ -80,7 +80,7 @@ const cardArray = [
   },
   {
     isEdit: false,
-    isCardRepeat: true,
+    isCardRepeat: false,
     isDeadline: false,
     text: `Here is a card with filling data`,
     imgUrl: `img/sample-img.jpg`,
@@ -377,4 +377,18 @@ const createTaskHTML = function (item) {
 
 for (let i = 0; i < cardArray.length; i++) {
   tasksContainer.insertAdjacentHTML(`beforeEnd`, createTaskHTML(cardArray[i]));
+}
+
+const filterBtn = document.querySelectorAll(`.filter__input`);
+
+const removeArrayObjects = function () {
+  const elem = document.querySelector(`.board__tasks`);
+  elem.parentNode.removeChild(elem);
+  return false;
+};
+
+for (let i = 0; i < filterBtn.length; i++) {
+  filterBtn[i].addEventListener(`click`, function () {
+    return removeArrayObjects();
+  });
 }
