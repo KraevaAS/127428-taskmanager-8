@@ -1,20 +1,23 @@
 'use strict';
 
-const element = document.querySelector(`.main__filter`);
-const elem = document.querySelector(`.board__tasks`);
+const filtersContainer = document.querySelector(`.main__filter`);
+const tasksContainer = document.querySelector(`.board__tasks`);
 
 const createFilterHTML = function (name, count, isChecked = false) {
   return `
-<input type="radio"
-      id="filter__${name.toLowerCase()}"
-      class="filter__input visually-hidden"
-      name="filter"
-      ${isChecked ? ` checked` : ``}
-      ${count === 0 ? ` disabled` : ``} />
+<input
+  type="radio"
+  id="filter__${name.toLowerCase()}"
+  class="filter__input visually-hidden"
+  name="filter"
+  ${isChecked ? `checked` : ``}
+  ${count === 0 ? `disabled` : ``}
+    />
 <label for="filter__${name.toLowerCase()}" class="filter__label">
-${name.toUpperCase()} <span class="filter__${name.toLowerCase()}-count">${count}</span>
+  ${name.toUpperCase()}
+  <span class="filter__${name.toLowerCase()}-count">${count}</span>
 </label>
-      `;
+`;
 };
 
 const filtersArray = [
@@ -57,7 +60,7 @@ const filtersArray = [
 
 
 for (let i = 0; i < filtersArray.length; i++) {
-  element.insertAdjacentHTML(`beforeEnd`, createFilterHTML(filtersArray[i].name, filtersArray[i].count, filtersArray[i].isChecked));
+  filtersContainer.insertAdjacentHTML(`beforeEnd`, createFilterHTML(filtersArray[i].name, filtersArray[i].count, filtersArray[i].isChecked));
 }
 
 const cardArray =
@@ -78,17 +81,19 @@ const cardArray =
 
 const createCardControlBtns = function (name, isDisabled = false) {
   return `
-  <button type="button" class="card__btn card__btn--${name.toLowerCase()} ${isDisabled ? `
-card__btn--disabled` : ``}">${name.toLowerCase()}</button>
+<button type="button" class="card__btn card__btn--${name.toLowerCase()} ${isDisabled ? `
+card__btn--disabled` : ``}">
+${name.toLowerCase()}
+</button>
   `;
 };
 
 const createCardControlBar = () => {
   return `
 <div class="card__color-bar">
-<svg class="card__color-bar-wave" width="100%" height="10">
-<use xlink:href="#wave"></use>
-</svg>
+  <svg class="card__color-bar-wave" width="100%" height="10">
+    <use xlink:href="#wave"></use>
+  </svg>
 </div>
 `;
 };
@@ -96,14 +101,14 @@ const createCardControlBar = () => {
 const createCardTextArea = () => {
   return `
 <div class="card__textarea-wrap">
-<label>
+  <label>
 <textarea
-class="card__text"
-placeholder="Start typing your text here..."
-name="text">
+  class="card__text"
+  placeholder="Start typing your text here..."
+  name="text">
 ${cardArray.text}
 </textarea>
-</label>
+  </label>
 </div>
   `;
 };
@@ -111,14 +116,14 @@ ${cardArray.text}
 const createCardImg = () => {
   return `
 <label class="card__img-wrap ${cardArray.isImgEmpty ? `card__img-wrap--empty` : ``}">
-<input 
-type="file" 
-class="card__img-input visually-hidden" 
-name="img" />
-<img
-src="${cardArray.imgUrl}"
-alt="task picture"
-class="card__img" />
+  <input
+    type="file"
+    class="card__img-input visually-hidden"
+    name="img"/>
+  <img
+    src="${cardArray.imgUrl}"
+    alt="task picture"
+    class="card__img"/>
 </label>
   `;
 };
@@ -126,18 +131,28 @@ class="card__img" />
 const createCardDates = () => {
   return `
 <button class="card__date-deadline-toggle" type="button">
-date:
-<span class="card__date-satus">
-${cardArray.isDate}
-</span>
+  date:
+  <span class="card__date-satus">
+    ${cardArray.isDate}
+  </span>
 </button>
 <fieldset class="card__date-deadline">
-<label class="card__input-deadline-wrap">
-<input class="card__date" type="text" plaeholder="${cardArray.date}" name="date" value="${cardArray.date}" />
-</label>
-<label class="card__input-deadline-wrap">
-<input class="card__time" type="text" placeholder="${cardArray.time}" name="time" value="${cardArray.time}" />
-</label>
+  <label class="card__input-deadline-wrap">
+    <input
+      class="card__date"
+      type="text"
+      plaeholder="${cardArray.date}"
+      name="date"
+      value="${cardArray.date}"/>
+  </label>
+  <label class="card__input-deadline-wrap">
+    <input
+      class="card__time"
+      type="text"
+      placeholder="${cardArray.time}"
+      name="time"
+      value="${cardArray.time}"/>
+  </label>
 </fieldset>
   `;
 };
@@ -147,10 +162,16 @@ const weekDays = [`mo`, `tu`, `we`, `th`, `fr`, `sa`, `su`];
 const getWeekDays = function () {
   let getWeek = ``;
   for (let i = 0; i < weekDays.length; i++) {
-    getWeek += ` <input class="visually-hidden card__repeat-day-input" type="checkbox" id="repeat-${weekDays[i]}-4" name="repeat" value="${weekDays[i]}" />
-      <label class="card__repeat-day" for="repeat-${weekDays[i]}-4">
-      ${weekDays[i]}
-      </label> `;
+    getWeek += `
+<input
+  class="visually-hidden card__repeat-day-input"
+  type="checkbox"
+  id="repeat-${weekDays[i]}-4"
+  name="repeat"
+  value="${weekDays[i]}"/>
+<label class="card__repeat-day" for="repeat-${weekDays[i]}-4">
+  ${weekDays[i]}
+</label> `;
   }
   return getWeek;
 };
@@ -158,25 +179,28 @@ const getWeekDays = function () {
 const createRepeatToggle = function () {
   return `
 <button class="card__repeat-toggle" type="button">
-repeat:
-<span class="card__repeat-status">
-${cardArray.repeat}
-</span>
+  repeat:
+  <span class="card__repeat-status">
+    ${cardArray.repeat}
+  </span>
 </button>
 <fieldset class="card__repeat-days">
-<div class="card__repeat-days-inner">
-${getWeekDays()}
-</div>
+  <div class="card__repeat-days-inner">
+    ${getWeekDays()}
+  </div>
 </fieldset>
   `;
 };
 
 const createHashtagList = () => {
-  return `
-<div class="card__hashtag">
-<div class="card__hashtag-list">
+  return `<div class="card__hashtag">
+  <div class="card__hashtag-list">
 <span class="card__hashtag-inner">
-<input type="hidden" name="hashtag" value="repeat" class="card__hashtag-hidden-input" />
+<input
+  type="hidden"
+  name="hashtag"
+  value="repeat"
+  class="card__hashtag-hidden-input"/>
 <button type="button" class="card__hashtag-name">
 ${cardArray.hashtag}
 </button>
@@ -184,122 +208,86 @@ ${cardArray.hashtag}
 delete
 </button>
 </span>
-<input type="text" class="card__hashtag-input" name="hashtag-input" placeholder="Type new hashtag here" /> 
-</label>
-</div>  
+    <input type="text" class="card__hashtag-input" name="hashtag-input" placeholder="Type new hashtag here"/>
+    </label>
+  </div>
 </div>
   `;
 };
 
+const colors = [`black`, `yellow`, `blue`, `green`, `pink`];
+
+const getColors = function () {
+  let getColor = ``;
+  for (let i = 0; i < colors.length; i++) {
+    getColor += `
+<input
+  type="radio"
+  id="color-${colors[i]}-4"
+  class="card__color-input card__color-input--${colors[i]} visually-hidden"
+  name="color"
+  value="${colors[i]}" ${colors[i] === `yellow` ? `checked` : ``}/>
+<label
+  for="color-${colors[i]}-4"
+  class="card__color card__color--${colors[i]}">${colors[i]}</label>
+`;
+  }
+  return getColor;
+};
+
 const createCardColors = () => {
   return `
-  <div class="card__colors-inner">
+<div class="card__colors-inner">
   <h3 class="card__colors-title">Color</h3>
   <div class="card__colors-wrap">
-  <input
-   type="radio" 
-   id="color-black-4" 
-   class="card__color-input card__color-input--black visually-hidden" 
-   name="color"
-   value="black" />
-   <label
-   for="color-black-4" 
-   class="card__color card__color--black">black</label>
-   <input
-    type="radio" 
-    id="color-yellow-4" 
-    class="card__color-input card__color-input--yellow visually-hidden" 
-    name="color" 
-    value="yellow" 
-    checked />
-   <label
-     for="color-yellow-4" 
-     class="card__color card__color--yellow">yellow</label>
-   <input 
-   type="radio"
-   id="color-blue-4" 
-   class="card__color-input card__color-input--blue visually-hidden" 
-   name="color" 
-   value="blue" />
-   <label
-    for="color-blue-4"
-    class="card__color card__color--blue"
-    >blue</label>
-    <input 
-    type="radio" 
-    id="color-green-4" 
-    class="card__color-input card__color-input--green visually-hidden" 
-    name="color" 
-    value="green" />
-    <label 
-    for="color-green-4" 
-    class="card__color card__color--green">
-    green
-    </label>
-    <input 
-    type="radio" 
-    id="color-pink-4" 
-    class="card__color-input card__color-input--pink visually-hidden" 
-    name="color" 
-    value="pink" />
-    <label 
-    for="color-pink-4" 
-    class="card__color card__color--pink">
-    pink
-    </label>
-    </div>
-    </div>    
+    ${getColors()}
+  </div>
+</div>    
   `;
 };
 
 const createStatusBtns = () => {
   return `
 <div class="card__status-btns">
-<button class="card__save" type="submit">save</button>
-<button class="card__delete" type="button">delete</button>
+  <button class="card__save" type="submit">save</button>
+  <button class="card__delete" type="button">delete</button>
 </div>
 `;
 };
 
 const createTaskHTML = function () {
   return `
-<article class="card 
-${cardArray.isEdit ? `card--edit` : ``}
-${cardArray.repeat === `YES` ? `card--repeat` : ``}
-${cardArray.isCardRepeat ? `card--repeat` : ``}
-card--${cardArray.color}
-${cardArray.isDeadline ? `card--deadline` : ``}">
-<form class="card__form" method="get">
-<div class="card__inner">
-<div class="card__control">
-${createCardControlBtns(`edit`)}
-${createCardControlBtns(`archive`)}
-${createCardControlBtns(`favorites`, true)}
-</div>
-${createCardControlBar()}
-${createCardTextArea()}
-<div class="card__settings">
-<div class="card__details">
-<div class="card__dates">
-${createCardDates()}
-${createRepeatToggle()}
-</div>
-${createHashtagList()}
-</div>
-${createCardImg()}
-${createCardColors()}
-</div>
-${createStatusBtns()}
-</div>
-</form>
+<article
+  class="card 
+  ${cardArray.isEdit ? `card--edit` : ``}
+  ${cardArray.isCardRepeat ? `card--repeat` : ``}
+  card--${cardArray.color}
+  ${cardArray.isDeadline ? `card--deadline` : ``}">
+  <form class="card__form" method="get">
+    <div class="card__inner">
+      <div class="card__control">
+      ${createCardControlBtns(`edit`)}
+      ${createCardControlBtns(`archive`)}
+      ${createCardControlBtns(`favorites`, true)}
+      </div>
+      ${createCardControlBar()}
+      ${createCardTextArea()}
+      <div class="card__settings">
+        <div class="card__details">
+          <div class="card__dates">
+            ${createCardDates()}
+            ${createRepeatToggle()}
+          </div>
+          ${createHashtagList()}
+        </div>
+        ${createCardImg()}
+        ${createCardColors()}
+      </div>
+      ${createStatusBtns()}
+    </div>
+  </form>
 </article>
 `;
 };
 
-elem.insertAdjacentHTML(`beforeEnd`, createTaskHTML());
-elem.insertAdjacentHTML(`beforeEnd`, createTaskHTML());
-elem.insertAdjacentHTML(`beforeEnd`, createTaskHTML());
-elem.insertAdjacentHTML(`beforeEnd`, createTaskHTML());
-elem.insertAdjacentHTML(`beforeEnd`, createTaskHTML());
-elem.insertAdjacentHTML(`beforeEnd`, createTaskHTML());
-elem.insertAdjacentHTML(`beforeEnd`, createTaskHTML());
+tasksContainer.insertAdjacentHTML(`beforeEnd`, createTaskHTML());
