@@ -81,7 +81,7 @@ const createCardDates = (card) => {
     <input
       class="card__date"
       type="text"
-      plaeholder="${card.date}"
+      placeholder="${card.date}"
       name="date"
       value="${card.date}"/>
   </label>
