@@ -1,7 +1,6 @@
 'use strict';
 
-const filtersContainer = document.querySelector(`.main__filter`);
-const tasksContainer = document.querySelector(`.board__tasks`);
+// HTML Generators Begin
 
 const createFilterHTML = function (name, count, isChecked = false) {
   return `
@@ -19,150 +18,6 @@ const createFilterHTML = function (name, count, isChecked = false) {
 </label>
 `;
 };
-
-const filtersArray = [
-  {
-    name: `all`,
-    count: 15,
-    isChecked: true,
-  },
-  {
-    name: `overdue`,
-    count: 0,
-    isChecked: false,
-  },
-  {
-    name: `today`,
-    count: 0,
-    isChecked: false,
-  },
-  {
-    name: `favorites`,
-    count: 7,
-    isChecked: false,
-  },
-  {
-    name: `repeating`,
-    count: 2,
-    isChecked: false,
-  },
-  {
-    name: `tag`,
-    count: 6,
-    isChecked: false,
-  },
-  {
-    name: `archive`,
-    count: 115,
-    isChecked: false,
-  },
-];
-
-
-for (let i = 0; i < filtersArray.length; i++) {
-  filtersContainer.insertAdjacentHTML(`beforeEnd`, createFilterHTML(filtersArray[i].name, filtersArray[i].count, filtersArray[i].isChecked));
-}
-
-const cardArray = [
-  {
-    isEdit: true,
-    isCardRepeat: true,
-    isDeadline: false,
-    text: `Here is a card with filling data`,
-    imgUrl: `img/sample-img.jpg`,
-    isImgEmpty: false,
-    isDate: true,
-    date: `23 September`,
-    time: `11:15 PM`,
-    isRepeat: true,
-    hashtag: `#repeat`,
-    color: `yellow`
-  },
-  {
-    isEdit: false,
-    isCardRepeat: false,
-    isDeadline: false,
-    text: `Here is a card with filling data`,
-    imgUrl: `img/sample-img.jpg`,
-    isImgEmpty: false,
-    isDate: true,
-    date: `23 September`,
-    time: `11:15 PM`,
-    isRepeat: true,
-    hashtag: `#repeat`,
-    color: `yellow`
-  },
-  {
-    isEdit: false,
-    isCardRepeat: true,
-    isDeadline: true,
-    text: `Here is a card with filling data`,
-    imgUrl: `img/sample-img.jpg`,
-    isImgEmpty: false,
-    isDate: true,
-    date: `23 September`,
-    time: `11:15 PM`,
-    isRepeat: true,
-    hashtag: `#repeat`,
-    color: `yellow`
-  },
-  {
-    isEdit: false,
-    isCardRepeat: true,
-    isDeadline: false,
-    text: `Here is a card with filling data`,
-    imgUrl: `img/sample-img.jpg`,
-    isImgEmpty: false,
-    isDate: true,
-    date: `23 September`,
-    time: `11:15 PM`,
-    isRepeat: true,
-    hashtag: `#repeat`,
-    color: `yellow`
-  },
-  {
-    isEdit: false,
-    isCardRepeat: true,
-    isDeadline: false,
-    text: `Here is a card with filling data`,
-    imgUrl: `img/sample-img.jpg`,
-    isImgEmpty: false,
-    isDate: true,
-    date: `23 September`,
-    time: `11:15 PM`,
-    isRepeat: true,
-    hashtag: `#repeat`,
-    color: `yellow`
-  },
-  {
-    isEdit: false,
-    isCardRepeat: true,
-    isDeadline: false,
-    text: `Here is a card with filling data`,
-    imgUrl: `img/sample-img.jpg`,
-    isImgEmpty: false,
-    isDate: true,
-    date: `23 September`,
-    time: `11:15 PM`,
-    isRepeat: true,
-    hashtag: `#repeat`,
-    color: `yellow`
-  },
-  {
-    isEdit: false,
-    isCardRepeat: true,
-    isDeadline: false,
-    text: `Here is a card with filling data`,
-    imgUrl: `img/sample-img.jpg`,
-    isImgEmpty: false,
-    isDate: true,
-    date: `23 September`,
-    time: `11:15 PM`,
-    isRepeat: true,
-    hashtag: `#repeat`,
-    color: `yellow`
-  }
-];
 
 const createCardControlBtns = function (name, isDisabled = false) {
   return `
@@ -242,26 +97,24 @@ const createCardDates = (card) => {
   `;
 };
 
-const weekDays = [`mo`, `tu`, `we`, `th`, `fr`, `sa`, `su`];
-
-const getWeekDays = function () {
+const getWeekDays = function (days) {
   let getWeek = ``;
-  for (let i = 0; i < weekDays.length; i++) {
+  for (let i = 0; i < days.length; i++) {
     getWeek += `
 <input
   class="visually-hidden card__repeat-day-input"
   type="checkbox"
-  id="repeat-${weekDays[i]}-4"
+  id="repeat-${days[i]}-4"
   name="repeat"
-  value="${weekDays[i]}"/>
-<label class="card__repeat-day" for="repeat-${weekDays[i]}-4">
-  ${weekDays[i]}
+  value="${days[i]}"/>
+<label class="card__repeat-day" for="repeat-${days[i]}-4">
+  ${days[i]}
 </label> `;
   }
   return getWeek;
 };
 
-const createRepeatToggle = function (card) {
+const createRepeatToggle = function (card, days) {
   return `
 <button class="card__repeat-toggle" type="button">
   repeat:
@@ -271,7 +124,7 @@ const createRepeatToggle = function (card) {
 </button>
 <fieldset class="card__repeat-days">
   <div class="card__repeat-days-inner">
-    ${getWeekDays()}
+    ${getWeekDays(days)}
   </div>
 </fieldset>
   `;
@@ -300,9 +153,7 @@ delete
   `;
 };
 
-const colors = [`black`, `yellow`, `blue`, `green`, `pink`];
-
-const getColors = function () {
+const getColors = function (colors) {
   let getColor = ``;
   for (let i = 0; i < colors.length; i++) {
     getColor += `
@@ -320,12 +171,12 @@ const getColors = function () {
   return getColor;
 };
 
-const createCardColors = () => {
+const createCardColors = (colors) => {
   return `
 <div class="card__colors-inner">
   <h3 class="card__colors-title">Color</h3>
   <div class="card__colors-wrap">
-    ${getColors()}
+    ${getColors(colors)}
   </div>
 </div>    
   `;
@@ -340,7 +191,7 @@ const createStatusBtns = () => {
 `;
 };
 
-const createTaskHTML = function (item) {
+const createTaskHTML = function (item, days, colors) {
   return `
 <article
   class="card 
@@ -361,12 +212,12 @@ const createTaskHTML = function (item) {
         <div class="card__details">
           <div class="card__dates">
             ${createCardDates(item)}
-            ${createRepeatToggle(item)}
+            ${createRepeatToggle(item, days)}
           </div>
           ${createHashtagList(item)}
         </div>
         ${createCardImg(item)}
-        ${createCardColors()}
+        ${createCardColors(colors)}
       </div>
       ${createStatusBtns()}
     </div>
@@ -375,20 +226,124 @@ const createTaskHTML = function (item) {
 `;
 };
 
-for (let i = 0; i < cardArray.length; i++) {
-  tasksContainer.insertAdjacentHTML(`beforeEnd`, createTaskHTML(cardArray[i]));
-}
+// HTML Generators End
 
-const filterBtn = document.querySelectorAll(`.filter__input`);
+// Constant template content Begin
 
-const removeArrayObjects = function () {
-  const elem = document.querySelector(`.board__tasks`);
-  elem.parentNode.removeChild(elem);
-  return false;
+const WEEK_DAYS = [`mo`, `tu`, `we`, `th`, `fr`, `sa`, `su`];
+const CARD_COLORS = [`black`, `yellow`, `blue`, `green`, `pink`];
+
+// Constant template content End
+
+const addTasks = function (count) {
+  const CardArray = [];
+  for (let i = 0; i < count; i++) {
+    CardArray.push({
+      isEdit: true,
+      isCardRepeat: true,
+      isDeadline: false,
+      text: `Here is a card with filling data`,
+      imgUrl: `img/sample-img.jpg`,
+      isImgEmpty: false,
+      isDate: true,
+      date: `23 September`,
+      time: `11:15 PM`,
+      isRepeat: true,
+      hashtag: `#repeat`,
+      color: `yellow`
+    });
+  }
+  return CardArray;
 };
 
-for (let i = 0; i < filterBtn.length; i++) {
-  filterBtn[i].addEventListener(`click`, function () {
-    return removeArrayObjects();
-  });
-}
+const getRandomInt = (min, max) => Math.floor(Math.random() * (max - min)) + min;
+
+const filtersArray = [
+  {
+    name: `all`,
+    count: 15,
+    isChecked: true,
+  },
+  {
+    name: `overdue`,
+    count: 0,
+    isChecked: false,
+  },
+  {
+    name: `today`,
+    count: 0,
+    isChecked: false,
+  },
+  {
+    name: `favorites`,
+    count: 7,
+    isChecked: false,
+  },
+  {
+    name: `repeating`,
+    count: 2,
+    isChecked: false,
+  },
+  {
+    name: `tag`,
+    count: 6,
+    isChecked: false,
+  },
+  {
+    name: `archive`,
+    count: 115,
+    isChecked: false,
+  },
+];
+
+const removeExistingTasksFromHTML = function () {
+  const elem = document.querySelector(`.board__tasks`);
+  let child = elem.firstChild;
+
+  if (!elem) {
+    return;
+  }
+
+  while (child) {
+    elem.removeChild(child);
+    child = elem.firstChild;
+  }
+};
+
+const fillNewCards = function (tasks, days, colors) {
+  const tasksContainer = document.querySelector(`.board__tasks`);
+
+  removeExistingTasksFromHTML();
+
+  for (let j = 0; j < tasks.length; j++) {
+    tasksContainer.insertAdjacentHTML(`beforeEnd`, createTaskHTML(tasks[j], days, colors));
+  }
+};
+
+const initFilterButtons = (filters, days, colors) => {
+  const filtersContainer = document.querySelector(`.main__filter`);
+
+  for (let i = 0; i < filters.length; i++) {
+    const filter = filters[i];
+
+    filtersContainer.insertAdjacentHTML(`beforeEnd`, createFilterHTML(filter.name, filter.count, filter.isChecked));
+  }
+
+  const filterBtn = document.querySelectorAll(`.filter__input`);
+
+  for (let i = 0; i < filterBtn.length; i++) {
+    const button = filterBtn[i];
+
+    button.addEventListener(`click`, function () {
+      const newCardArray = addTasks(getRandomInt(1, 20));
+
+      fillNewCards(newCardArray, days, colors);
+    });
+  }
+};
+
+initFilterButtons(filtersArray, WEEK_DAYS, CARD_COLORS);
+
+const cardArray = addTasks(7);
+
+fillNewCards(cardArray, WEEK_DAYS, CARD_COLORS);
