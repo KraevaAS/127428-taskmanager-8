@@ -1,8 +1,16 @@
 'use strict';
 
+// Constant template content Begin
+
+const WEEK_DAYS = [`mo`, `tu`, `we`, `th`, `fr`, `sa`, `su`];
+const CARD_COLORS = [`black`, `yellow`, `blue`, `green`, `pink`];
+
+// Constant template content End
+
+
 // HTML Generators Begin
 
-const createFilterHTML = function (name, count, isChecked = false) {
+const createFilterHTML = (name, count, isChecked = false) => {
   return `
 <input
   type="radio"
@@ -19,7 +27,7 @@ const createFilterHTML = function (name, count, isChecked = false) {
 `;
 };
 
-const createCardControlBtns = function (name, isDisabled = false) {
+const createCardControlBtns = (name, isDisabled = false) => {
   return `
 <button type="button" class="card__btn card__btn--${name.toLowerCase()} ${isDisabled ? `
 card__btn--disabled` : ``}">
@@ -97,7 +105,7 @@ const createCardDates = (card) => {
   `;
 };
 
-const getWeekDays = function (days) {
+const getWeekDays = (days) => {
   let getWeek = ``;
   for (let i = 0; i < days.length; i++) {
     getWeek += `
@@ -114,7 +122,7 @@ const getWeekDays = function (days) {
   return getWeek;
 };
 
-const createRepeatToggle = function (card, days) {
+const createRepeatToggle = (card, days) => {
   return `
 <button class="card__repeat-toggle" type="button">
   repeat:
@@ -153,7 +161,7 @@ delete
   `;
 };
 
-const getColors = function (colors) {
+const getColors = (colors) => {
   let getColor = ``;
   for (let i = 0; i < colors.length; i++) {
     getColor += `
@@ -191,7 +199,7 @@ const createStatusBtns = () => {
 `;
 };
 
-const createTaskHTML = function (item, days, colors) {
+const createTaskHTML = (item, days, colors) => {
   return `
 <article
   class="card 
@@ -228,17 +236,10 @@ const createTaskHTML = function (item, days, colors) {
 
 // HTML Generators End
 
-// Constant template content Begin
-
-const WEEK_DAYS = [`mo`, `tu`, `we`, `th`, `fr`, `sa`, `su`];
-const CARD_COLORS = [`black`, `yellow`, `blue`, `green`, `pink`];
-
-// Constant template content End
-
-const addTasks = function (count) {
-  const CardArray = [];
+const addTasks = (count) => {
+  const cardArray = [];
   for (let i = 0; i < count; i++) {
-    CardArray.push({
+    cardArray.push({
       isEdit: true,
       isCardRepeat: true,
       isDeadline: false,
@@ -253,7 +254,7 @@ const addTasks = function (count) {
       color: `yellow`
     });
   }
-  return CardArray;
+  return cardArray;
 };
 
 const getRandomInt = (min, max) => Math.floor(Math.random() * (max - min)) + min;
@@ -296,7 +297,7 @@ const filtersArray = [
   },
 ];
 
-const removeExistingTasksFromHTML = function () {
+const removeExistingTasksFromHTML = () => {
   const elem = document.querySelector(`.board__tasks`);
   let child = elem.firstChild;
 
@@ -310,36 +311,34 @@ const removeExistingTasksFromHTML = function () {
   }
 };
 
-const fillNewCards = function (tasks, days, colors) {
+const fillNewCards = (tasks, days, colors) => {
   const tasksContainer = document.querySelector(`.board__tasks`);
 
   removeExistingTasksFromHTML();
 
-  for (let j = 0; j < tasks.length; j++) {
-    tasksContainer.insertAdjacentHTML(`beforeEnd`, createTaskHTML(tasks[j], days, colors));
-  }
+  tasks.forEach((task) => {
+    tasksContainer.insertAdjacentHTML(`beforeEnd`, createTaskHTML(task, days, colors));
+  });
 };
+
 
 const initFilterButtons = (filters, days, colors) => {
   const filtersContainer = document.querySelector(`.main__filter`);
 
-  for (let i = 0; i < filters.length; i++) {
-    const filter = filters[i];
-
+  filters.forEach((filter) => {
     filtersContainer.insertAdjacentHTML(`beforeEnd`, createFilterHTML(filter.name, filter.count, filter.isChecked));
-  }
+  });
 
-  const filterBtn = document.querySelectorAll(`.filter__input`);
+  const filterBtns = document.querySelectorAll(`.filter__input`);
 
-  for (let i = 0; i < filterBtn.length; i++) {
-    const button = filterBtn[i];
+  filterBtns.forEach((button) => {
 
-    button.addEventListener(`click`, function () {
+    button.addEventListener(`click`, () => {
       const newCardArray = addTasks(getRandomInt(1, 20));
 
       fillNewCards(newCardArray, days, colors);
     });
-  }
+  });
 };
 
 initFilterButtons(filtersArray, WEEK_DAYS, CARD_COLORS);
