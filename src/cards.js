@@ -76,7 +76,7 @@ const createCardDates = (card) => {
   `;
 };
 
-const getWeekDays = (days) => {
+const getWeekDays = (item, days) => {
   let getWeek = ``;
   for (let i = 0; i < days.length; i++) {
     getWeek += `
@@ -85,7 +85,8 @@ const getWeekDays = (days) => {
   type="checkbox"
   id="repeat-${days[i]}-4"
   name="repeat"
-  value="${days[i]}"/>
+  value="${days[i]}"
+  ${item.repeatingDays[days[i]] === true ? `checked` : ``}/>
 <label class="card__repeat-day" for="repeat-${days[i]}-4">
   ${days[i]}
 </label> `;
@@ -108,7 +109,7 @@ const createRepeatToggle = (item, days) => {
 </button>
 <fieldset class="card__repeat-days">
   <div class="card__repeat-days-inner">
-    ${getWeekDays(days)}
+    ${getWeekDays(item, days)}
   </div>
 </fieldset>
   `;
