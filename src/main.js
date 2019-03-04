@@ -4,7 +4,6 @@ import {createTaskHTML} from './cards.js';
 const getRandomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 
 const WEEK_DAYS = [`mo`, `tu`, `we`, `th`, `fr`, `sa`, `su`];
-const CARD_COLORS = [`black`, `yellow`, `blue`, `green`, `pink`];
 
 const generateTags = (tags, min, max) => {
   const count = getRandomInt(min, max);
@@ -95,9 +94,13 @@ const addTasks = (count) => {
         'sa': true,
         'su': false
       },
-      colors: {
-
-      }
+      colors: [
+        `black`,
+        `yellow`,
+        `blue`,
+        `green`,
+        `pink`
+      ]
     });
   }
   return cardArray;
@@ -146,8 +149,8 @@ const initFilterButtons = (filters, days, colors) => {
   });
 };
 
-initFilterButtons(filtersArray, WEEK_DAYS, CARD_COLORS);
+initFilterButtons(filtersArray, WEEK_DAYS);
 
 const cardArray = addTasks(7);
 
-fillNewCards(cardArray, WEEK_DAYS, CARD_COLORS);
+fillNewCards(cardArray, WEEK_DAYS);

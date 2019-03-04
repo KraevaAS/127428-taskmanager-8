@@ -138,30 +138,30 @@ ${Array.from(hashtags).map((tag) => createHashtagInner(tag)).join(``)}
   `;
 };
 
-const getColors = (colors) => {
+const getColors = (item) => {
   let getColor = ``;
-  for (let i = 0; i < colors.length; i++) {
+  for (let i = 0; i < item.colors.length; i++) {
     getColor += `
 <input
   type="radio"
-  id="color-${colors[i]}-4"
-  class="card__color-input card__color-input--${colors[i]} visually-hidden"
+  id="color-${item.colors[i]}-4"
+  class="card__color-input card__color-input--${item.colors[i]} visually-hidden"
   name="color"
-  value="${colors[i]}" ${colors[i] === `yellow` ? `checked` : ``}/>
+  value="${item.colors[i]}" ${item.colors[i] === `yellow` ? `checked` : ``}/>
 <label
-  for="color-${colors[i]}-4"
-  class="card__color card__color--${colors[i]}">${colors[i]}</label>
+  for="color-${item.colors[i]}-4"
+  class="card__color card__color--${item.colors[i]}">${item.colors[i]}</label>
 `;
   }
   return getColor;
 };
 
-const createCardColors = (colors) => {
+const createCardColors = (item) => {
   return `
 <div class="card__colors-inner">
   <h3 class="card__colors-title">Color</h3>
   <div class="card__colors-wrap">
-    ${getColors(colors)}
+    ${getColors(item)}
   </div>
 </div>    
   `;
@@ -176,13 +176,13 @@ const createStatusBtns = () => {
 `;
 };
 
-export const createTaskHTML = (item, days, colors) => {
+export const createTaskHTML = (item, days) => {
   return `
 <article
   class="card 
   ${item.isEdit ? `card--edit` : ``}
   ${item.isRepeat ? `card--repeat` : ``}
-  card--${item.color}
+  card--yellow
   ${item.dueDate > Date.now() ? `card--deadline` : ``}">
   <form class="card__form" method="get">
     <div class="card__inner">
@@ -202,7 +202,7 @@ export const createTaskHTML = (item, days, colors) => {
           ${createHashtagList(item.tags)}
         </div>
         ${createCardImg(item)}
-        ${createCardColors(colors)}
+        ${createCardColors(item)}
       </div>
       ${createStatusBtns()}
     </div>
