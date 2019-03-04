@@ -3,12 +3,12 @@ import {createTaskHTML} from './cards.js';
 
 const getRandomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 
-const WEEK_DAYS = [`mo`, `tu`, `we`, `th`, `fr`, `sa`, `su`];
+const WEEK_DAYS = [`Mo`, `Tu`, `We`, `Th`, `Fr`, `Sa`, `Su`];
 
 const generateTags = (tags, min, max) => {
   const count = getRandomInt(min, max);
   const newTagsArray = [];
-  const copyTagsArray = tags.slice();
+  const copyTagsArray = Array.from(tags).slice();
   for (let i = 0; i < count; i++) {
     const startIndex = getRandomInt(0, copyTagsArray.length - 1);
     const newTag = copyTagsArray.splice(startIndex, 1);
@@ -76,23 +76,22 @@ const addTasks = (count) => {
       ][Math.floor(Math.random() * 2)],
       date: `4 March`,
       time: `11:15 PM`,
-      hashtag: `#repeat`,
       color: `yellow`,
-      tags: generateTags([
+      tags: generateTags(new Set([
         `homework`,
         `theory`,
         `practice`,
         `intensive`,
         `keks`
-      ], 0, 3),
+      ]), 0, 3),
       repeatingDays: {
-        'mo': true,
-        'tu': false,
-        'we': true,
-        'th': false,
-        'fr': false,
-        'sa': true,
-        'su': false
+        'Mo': true,
+        'Tu': false,
+        'We': true,
+        'Th': false,
+        'Fr': false,
+        'Sa': true,
+        'Su': false
       },
       colors: [
         `black`,

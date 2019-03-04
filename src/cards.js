@@ -93,12 +93,17 @@ const getWeekDays = (days) => {
   return getWeek;
 };
 
-const createRepeatToggle = (card, days) => {
+const getIsRepeat = (item) => Object
+  .values(item.repeatingDays)
+  .filter((day) => day === true)
+  .length > 1;
+
+const createRepeatToggle = (item, days) => {
   return `
 <button class="card__repeat-toggle" type="button">
   repeat:
   <span class="card__repeat-status">
-    ${card.isRepeat ? `yes` : `no`}
+    ${getIsRepeat(item) ? `yes` : `no`}
   </span>
 </button>
 <fieldset class="card__repeat-days">
@@ -181,7 +186,7 @@ export const createTaskHTML = (item, days) => {
 <article
   class="card 
   ${item.isEdit ? `card--edit` : ``}
-  ${item.isRepeat ? `card--repeat` : ``}
+  ${getIsRepeat(item) ? `card--repeat` : ``}
   card--yellow
   ${item.dueDate > Date.now() ? `card--deadline` : ``}">
   <form class="card__form" method="get">
