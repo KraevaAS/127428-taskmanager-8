@@ -59,10 +59,10 @@ const filtersArray = [
 const addTasks = (count) => {
   return Array.from({length: count}).map(() => ({
     isEdit: true,
-    isRepeat: true,
-    isDeadline: false,
     isImg: true,
     isDate: true,
+    isFavorite: false,
+    isDone: false,
     title: [
       `Изучить теорию`,
       `Сделать домашку`,
