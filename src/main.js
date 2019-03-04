@@ -1,8 +1,22 @@
 import {createFilterHTML} from './filters.js';
 import {createTaskHTML} from './cards.js';
 
+const getRandomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+
 const WEEK_DAYS = [`mo`, `tu`, `we`, `th`, `fr`, `sa`, `su`];
 const CARD_COLORS = [`black`, `yellow`, `blue`, `green`, `pink`];
+
+const generateTags = (tags, min, max) => {
+  const count = getRandomInt(min, max);
+  const newTagsArray = [];
+  const copyTagsArray = tags.slice();
+  for (let i = 0; i < count; i++) {
+    const startIndex = getRandomInt(0, copyTagsArray.length - 1);
+    const newTag = copyTagsArray.splice(startIndex, 1);
+    newTagsArray.push(newTag[0]);
+  }
+  return newTagsArray;
+};
 
 const filtersArray = [
   {
@@ -47,24 +61,47 @@ const addTasks = (count) => {
   for (let i = 0; i < count; i++) {
     cardArray.push({
       isEdit: true,
-      isCardRepeat: true,
-      isDeadline: false,
-      text: `Here is a card with filling data`,
-      imgUrl: `img/sample-img.jpg`,
-      isImgEmpty: false,
-      isDate: true,
-      date: `23 September`,
-      time: `11:15 PM`,
       isRepeat: true,
+      isDeadline: false,
+      isImg: true,
+      isDate: true,
+      title: [
+        `Изучить теорию`,
+        `Сделать домашку`,
+        `Пройти интенсив на соточку`
+      ][Math.floor(Math.random() * 3)],
+      picture: `http://picsum.photos/100/100?r=${Math.random()}`,
+      dueDate: [
+        Date.now() + 1 + Math.floor(Math.random() * 7) * 24 * 60 * 60 * 1000,
+        Date.now() - Math.floor(Math.random() * 7) * 24 * 60 * 60 * 1000
+      ][Math.floor(Math.random() * 2)],
+      date: `4 March`,
+      time: `11:15 PM`,
       hashtag: `#repeat`,
-      color: `yellow`
+      color: `yellow`,
+      tags: generateTags([
+        `homework`,
+        `theory`,
+        `practice`,
+        `intensive`,
+        `keks`
+      ], 0, 3),
+      repeatingDays: {
+        'mo': true,
+        'tu': false,
+        'we': true,
+        'th': false,
+        'fr': false,
+        'sa': true,
+        'su': false
+      },
+      colors: {
+
+      }
     });
   }
   return cardArray;
 };
-
-const getRandomInt = (min, max) => Math.floor(Math.random() * (max - min)) + min;
-
 
 const removeExistingTasksFromHTML = () => {
   const elem = document.querySelector(`.board__tasks`);

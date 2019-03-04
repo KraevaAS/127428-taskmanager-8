@@ -7,7 +7,7 @@ ${name.toLowerCase()}
   `;
 };
 
-const createCardControlBar = () => {
+const createCardColorBar = () => {
   return `
 <div class="card__color-bar">
   <svg class="card__color-bar-wave" width="100%" height="10">
@@ -25,7 +25,7 @@ const createCardTextArea = (card) => {
   class="card__text"
   placeholder="Start typing your text here..."
   name="text">
-${card.text}
+${card.title}
 </textarea>
   </label>
 </div>
@@ -34,13 +34,13 @@ ${card.text}
 
 const createCardImg = (card) => {
   return `
-<label class="card__img-wrap ${card.isImgEmpty ? `card__img-wrap--empty` : ``}">
+<label class="card__img-wrap ${card.isImg ? `` : `card__img-wrap--empty`}">
   <input
     type="file"
     class="card__img-input visually-hidden"
     name="img"/>
   <img
-    src="${card.imgUrl}"
+    src="${card.picture}"
     alt="task picture"
     class="card__img"/>
 </label>
@@ -109,22 +109,28 @@ const createRepeatToggle = (card, days) => {
   `;
 };
 
-const createHashtagList = (card) => {
+const createHashtagInner = (tag) => {
+  return `
+<span class="card__hashtag-inner">
+  <input
+      type="hidden"
+      name="hashtag"
+      value="repeat"
+      class="card__hashtag-hidden-input"/>
+  <button type="button" class="card__hashtag-name">
+  #${tag}
+  </button>
+  <button type="button" class="card__hashtag-delete">
+    delete
+  </button>
+</span>
+   `;
+};
+
+const createHashtagList = (hashtags) => {
   return `<div class="card__hashtag">
   <div class="card__hashtag-list">
-<span class="card__hashtag-inner">
-<input
-  type="hidden"
-  name="hashtag"
-  value="repeat"
-  class="card__hashtag-hidden-input"/>
-<button type="button" class="card__hashtag-name">
-${card.hashtag}
-</button>
-<button type="button" class="card__hashtag-delete">
-delete
-</button>
-</span>
+${Array.from(hashtags).map((tag) => createHashtagInner(tag)).join(``)}
     <input type="text" class="card__hashtag-input" name="hashtag-input" placeholder="Type new hashtag here"/>
     </label>
   </div>
@@ -175,9 +181,9 @@ export const createTaskHTML = (item, days, colors) => {
 <article
   class="card 
   ${item.isEdit ? `card--edit` : ``}
-  ${item.isCardRepeat ? `card--repeat` : ``}
+  ${item.isRepeat ? `card--repeat` : ``}
   card--${item.color}
-  ${item.isDeadline ? `card--deadline` : ``}">
+  ${item.dueDate > Date.now() ? `card--deadline` : ``}">
   <form class="card__form" method="get">
     <div class="card__inner">
       <div class="card__control">
@@ -185,7 +191,7 @@ export const createTaskHTML = (item, days, colors) => {
       ${createCardControlBtns(`archive`)}
       ${createCardControlBtns(`favorites`, true)}
       </div>
-      ${createCardControlBar()}
+      ${createCardColorBar()}
       ${createCardTextArea(item)}
       <div class="card__settings">
         <div class="card__details">
@@ -193,7 +199,7 @@ export const createTaskHTML = (item, days, colors) => {
             ${createCardDates(item)}
             ${createRepeatToggle(item, days)}
           </div>
-          ${createHashtagList(item)}
+          ${createHashtagList(item.tags)}
         </div>
         ${createCardImg(item)}
         ${createCardColors(colors)}
