@@ -1,3 +1,9 @@
+import {createTaskHTML} from './cards.js';
+import {task} from './data.js';
+
+const WEEK_DAYS = [`Mo`, `Tu`, `We`, `Th`, `Fr`, `Sa`, `Su`];
+const CARD_COLORS = [`black`, `yellow`, `blue`, `green`, `pink`];
+
 export class Task {
   constructor(item) {
     this._title = item.title;
@@ -15,5 +21,9 @@ export class Task {
     this._state = {
       isEdit: false,
     };
+  }
+
+  get template() {
+    return createTaskHTML(task, WEEK_DAYS, CARD_COLORS);
   }
 }
