@@ -54,7 +54,6 @@ export const task = {
   ][Math.floor(Math.random() * 2)],
   date: `4 March`,
   time: `11:15 PM`,
-  color: `yellow`,
   tags: Array.from(new Set([
     `homework`,
     `theory`,
