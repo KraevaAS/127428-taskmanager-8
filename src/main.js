@@ -1,8 +1,10 @@
 import {createFilterHTML} from './filters.js';
 import {createTaskHTML} from './cards.js';
 
-const WEEK_DAYS = [`mo`, `tu`, `we`, `th`, `fr`, `sa`, `su`];
+const WEEK_DAYS = [`Mo`, `Tu`, `We`, `Th`, `Fr`, `Sa`, `Su`];
 const CARD_COLORS = [`black`, `yellow`, `blue`, `green`, `pink`];
+
+const getRandomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 
 const filtersArray = [
   {
@@ -42,29 +44,55 @@ const filtersArray = [
   },
 ];
 
-const addTasks = (count) => {
-  const cardArray = [];
-  for (let i = 0; i < count; i++) {
-    cardArray.push({
-      isEdit: true,
-      isCardRepeat: true,
-      isDeadline: false,
-      text: `Here is a card with filling data`,
-      imgUrl: `img/sample-img.jpg`,
-      isImgEmpty: false,
-      isDate: true,
-      date: `23 September`,
-      time: `11:15 PM`,
-      isRepeat: true,
-      hashtag: `#repeat`,
-      color: `yellow`
-    });
-  }
-  return cardArray;
+const task = {
+  isEdit: true,
+  isImg: true,
+  isDate: true,
+  isFavorite: false,
+  isDone: false,
+  title: [
+    `Изучить теорию`,
+    `Сделать домашку`,
+    `Пройти интенсив на соточку`
+  ][Math.floor(Math.random() * 3)],
+  picture: `http://picsum.photos/100/100?r=${Math.random()}`,
+  dueDate: [
+    Date.now() + 1 + Math.floor(Math.random() * 7) * 24 * 60 * 60 * 1000,
+    Date.now() - Math.floor(Math.random() * 7) * 24 * 60 * 60 * 1000
+  ][Math.floor(Math.random() * 2)],
+  date: `4 March`,
+  time: `11:15 PM`,
+  color: `yellow`,
+  tags: Array.from(new Set([
+    `homework`,
+    `theory`,
+    `practice`,
+    `intensive`,
+    `keks`
+  ])).sort(function compareRandom() {
+    return Math.random() - 0.5;
+  }).slice(0, getRandomInt(0, 3)),
+  repeatingDays: {
+    'Mo': true,
+    'Tu': false,
+    'We': true,
+    'Th': false,
+    'Fr': false,
+    'Sa': true,
+    'Su': false
+  },
+  colors: [
+    `black`,
+    `yellow`,
+    `blue`,
+    `green`,
+    `pink`
+  ][Math.floor(Math.random() * 5)]
 };
 
-const getRandomInt = (min, max) => Math.floor(Math.random() * (max - min)) + min;
-
+const addTasks = (count) => {
+  return Array.from({length: count}).map(() => task);
+};
 
 const removeExistingTasksFromHTML = () => {
   const elem = document.querySelector(`.board__tasks`);
@@ -85,7 +113,7 @@ const fillNewCards = (tasks, days, colors) => {
 
   removeExistingTasksFromHTML();
 
-  tasks.forEach((task) => {
+  tasks.forEach(() => {
     tasksContainer.insertAdjacentHTML(`beforeEnd`, createTaskHTML(task, days, colors));
   });
 };
