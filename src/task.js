@@ -43,4 +43,10 @@ export class Task {
     this._element = this.template;
     return this._element;
   }
+
+  unrender() {
+    this._element = null;
+  }
+
 }
+
