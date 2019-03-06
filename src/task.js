@@ -5,7 +5,7 @@ export class Task {
     this._tags = item.tags;
     this._dueDate = item.dueDate;
     this._date = item.date;
-    this.time = item.time;
+    this._time = item.time;
     this._repeatingDays = item.repeatingDays;
     this._isImg = item.isImg;
     this._isDate = item.isDate;
