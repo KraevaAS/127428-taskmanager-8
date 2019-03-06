@@ -42,6 +42,11 @@ export class Task {
       .addEventListener(`click`, this._onEditButtonClick.bind(this));
   }
 
+  unbind() {
+    this._element.querySelector(`.card__btn--edit`)
+      .removeEventListener(`click`, this._onEditButtonClick.bind(this));
+  }
+
   render() {
     this._element = createElement(this.template);
     this.bind();
@@ -49,6 +54,7 @@ export class Task {
   }
 
   unrender() {
+    this.unbind();
     this._element = null;
   }
 
@@ -84,7 +90,13 @@ export class TaskEdit {
   }
 
   bind() {
-    this._element.querySelector(`.card__form`).addEventListener(`submit`, this._onSubmitButtonClick.bind(this));
+    this._element.querySelector(`.card__form`)
+      .addEventListener(`submit`, this._onSubmitButtonClick.bind(this));
+  }
+
+  unbind() {
+    this._element.querySelector(`.card__form`)
+      .removeEventListener(`submit`, this._onSubmitButtonClick.bind(this));
   }
 
   render() {
@@ -94,6 +106,7 @@ export class TaskEdit {
   }
 
   unrender() {
+    this.unbind();
     this._element = null;
   }
 
