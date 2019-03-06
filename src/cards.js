@@ -7,21 +7,6 @@ ${name.toLowerCase()}
   `;
 };
 
-const createCardTextArea = (item) => {
-  return `
-<div class="card__textarea-wrap">
-  <label>
-<textarea
-  class="card__text"
-  placeholder="Start typing your text here..."
-  name="text">
-${item.title}
-</textarea>
-  </label>
-</div>
-  `;
-};
-
 const createCardImg = (item) => {
   return `
 <label class="card__img-wrap ${item.isImg ? `` : `card__img-wrap--empty`}">
@@ -156,11 +141,11 @@ const createCardColors = (item, colors) => {
   `;
 };
 
-export const createTaskHTML = (item, days, color) => {
+export const createTaskHTML = (item, days, color, isEdit) => {
   return `
 <article
   class="card 
-  ${item.isEdit ? `card--edit` : ``}
+  ${isEdit ? `card--edit` : ``}
   ${getIsRepeat(item) ? `card--repeat` : ``}
   card--${item.colors}
   ${item.dueDate > Date.now() ? `card--deadline` : ``}">
@@ -175,8 +160,17 @@ export const createTaskHTML = (item, days, color) => {
   <svg class="card__color-bar-wave" width="100%" height="10">
     <use xlink:href="#wave"></use>
   </svg>
+  </div>
+     <div class="card__textarea-wrap">
+  <label>
+  <textarea
+  class="card__text"
+  placeholder="Start typing your text here..."
+  name="text">
+${item.title}
+</textarea>
+  </label>
 </div>
-      ${createCardTextArea(item)}
       <div class="card__settings">
         <div class="card__details">
           <div class="card__dates">
@@ -195,6 +189,6 @@ export const createTaskHTML = (item, days, color) => {
     </div>
   </form>
 </article>
-`;
+`.trim();
 };
 
