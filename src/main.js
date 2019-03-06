@@ -6,18 +6,6 @@ const CARD_COLORS = [`black`, `yellow`, `blue`, `green`, `pink`];
 
 const getRandomInt = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 
-const generateTags = (tags, min, max) => {
-  const count = getRandomInt(min, max);
-  const newTagsArray = [];
-  const copyTagsArray = Array.from(tags).slice();
-  for (let i = 0; i < count; i++) {
-    const startIndex = getRandomInt(0, copyTagsArray.length - 1);
-    const newTag = copyTagsArray.splice(startIndex, 1);
-    newTagsArray.push(newTag[0]);
-  }
-  return newTagsArray;
-};
-
 const filtersArray = [
   {
     name: `all`,
@@ -56,50 +44,54 @@ const filtersArray = [
   },
 ];
 
+const task = {
+  isEdit: true,
+  isImg: true,
+  isDate: true,
+  isFavorite: false,
+  isDone: false,
+  title: [
+    `Изучить теорию`,
+    `Сделать домашку`,
+    `Пройти интенсив на соточку`
+  ][Math.floor(Math.random() * 3)],
+  picture: `http://picsum.photos/100/100?r=${Math.random()}`,
+  dueDate: [
+    Date.now() + 1 + Math.floor(Math.random() * 7) * 24 * 60 * 60 * 1000,
+    Date.now() - Math.floor(Math.random() * 7) * 24 * 60 * 60 * 1000
+  ][Math.floor(Math.random() * 2)],
+  date: `4 March`,
+  time: `11:15 PM`,
+  color: `yellow`,
+  tags: Array.from(new Set([
+    `homework`,
+    `theory`,
+    `practice`,
+    `intensive`,
+    `keks`
+  ])).sort(function compareRandom() {
+    return Math.random() - 0.5;
+  }).slice(0, getRandomInt(0, 3)),
+  repeatingDays: {
+    'Mo': true,
+    'Tu': false,
+    'We': true,
+    'Th': false,
+    'Fr': false,
+    'Sa': true,
+    'Su': false
+  },
+  colors: [
+    `black`,
+    `yellow`,
+    `blue`,
+    `green`,
+    `pink`
+  ][Math.floor(Math.random() * 5)]
+}
+
 const addTasks = (count) => {
-  return Array.from({length: count}).map(() => ({
-    isEdit: true,
-    isImg: true,
-    isDate: true,
-    isFavorite: false,
-    isDone: false,
-    title: [
-      `Изучить теорию`,
-      `Сделать домашку`,
-      `Пройти интенсив на соточку`
-    ][Math.floor(Math.random() * 3)],
-    picture: `http://picsum.photos/100/100?r=${Math.random()}`,
-    dueDate: [
-      Date.now() + 1 + Math.floor(Math.random() * 7) * 24 * 60 * 60 * 1000,
-      Date.now() - Math.floor(Math.random() * 7) * 24 * 60 * 60 * 1000
-    ][Math.floor(Math.random() * 2)],
-    date: `4 March`,
-    time: `11:15 PM`,
-    color: `yellow`,
-    tags: generateTags(new Set([
-      `homework`,
-      `theory`,
-      `practice`,
-      `intensive`,
-      `keks`
-    ]), 0, 3),
-    repeatingDays: {
-      'Mo': true,
-      'Tu': false,
-      'We': true,
-      'Th': false,
-      'Fr': false,
-      'Sa': true,
-      'Su': false
-    },
-    colors: [
-      `black`,
-      `yellow`,
-      `blue`,
-      `green`,
-      `pink`
-    ][Math.floor(Math.random() * 5)]
-  }));
+  return Array.from({length: count}).map(() => task);
 };
 
 const removeExistingTasksFromHTML = () => {
@@ -121,7 +113,7 @@ const fillNewCards = (tasks, days, colors) => {
 
   removeExistingTasksFromHTML();
 
-  tasks.forEach((task) => {
+  tasks.forEach(() => {
     tasksContainer.insertAdjacentHTML(`beforeEnd`, createTaskHTML(task, days, colors));
   });
 };

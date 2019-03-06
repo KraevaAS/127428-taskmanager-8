@@ -93,7 +93,7 @@ const getWeekDays = (day, isChecked) => {
 
 const getIsRepeat = (repeatingDays) => Object
   .values(repeatingDays)
-  .filter((day) => day === true)
+  .filter((day) => day)
   .length > 1;
 
 const createRepeatToggle = (repeatingDays, days) => {
@@ -133,7 +133,7 @@ const createHashtagInner = (tag) => {
 const createHashtagList = (hashtags) => {
   return `<div class="card__hashtag">
   <div class="card__hashtag-list">
-${Array.from(hashtags).map((tag) => createHashtagInner(tag)).join(``)}
+${hashtags.map((tag) => createHashtagInner(tag)).join(``)}
     <input type="text" class="card__hashtag-input" name="hashtag-input" placeholder="Type new hashtag here"/>
     </label>
   </div>
