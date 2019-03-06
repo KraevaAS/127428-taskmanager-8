@@ -88,7 +88,7 @@ const task = {
     `green`,
     `pink`
   ][Math.floor(Math.random() * 5)]
-}
+};
 
 const addTasks = (count) => {
   return Array.from({length: count}).map(() => task);
