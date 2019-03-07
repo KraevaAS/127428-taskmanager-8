@@ -7,31 +7,6 @@ ${name.toLowerCase()}
   `;
 };
 
-const createCardColorBar = () => {
-  return `
-<div class="card__color-bar">
-  <svg class="card__color-bar-wave" width="100%" height="10">
-    <use xlink:href="#wave"></use>
-  </svg>
-</div>
-`;
-};
-
-const createCardTextArea = (item) => {
-  return `
-<div class="card__textarea-wrap">
-  <label>
-<textarea
-  class="card__text"
-  placeholder="Start typing your text here..."
-  name="text">
-${item.title}
-</textarea>
-  </label>
-</div>
-  `;
-};
-
 const createCardImg = (item) => {
   return `
 <label class="card__img-wrap ${item.isImg ? `` : `card__img-wrap--empty`}">
@@ -166,20 +141,11 @@ const createCardColors = (item, colors) => {
   `;
 };
 
-const createStatusBtns = () => {
-  return `
-<div class="card__status-btns">
-  <button class="card__save" type="submit">save</button>
-  <button class="card__delete" type="button">delete</button>
-</div>
-`;
-};
-
-export const createTaskHTML = (item, days, color) => {
+export const createTaskHTML = (item, days, color, isEdit) => {
   return `
 <article
   class="card 
-  ${item.isEdit ? `card--edit` : ``}
+  ${isEdit ? `card--edit` : ``}
   ${getIsRepeat(item) ? `card--repeat` : ``}
   card--${item.colors}
   ${item.dueDate > Date.now() ? `card--deadline` : ``}">
@@ -190,8 +156,21 @@ export const createTaskHTML = (item, days, color) => {
       ${createCardControlBtns(`archive`)}
       ${createCardControlBtns(`favorites`, true)}
       </div>
-      ${createCardColorBar()}
-      ${createCardTextArea(item)}
+      <div class="card__color-bar">
+  <svg class="card__color-bar-wave" width="100%" height="10">
+    <use xlink:href="#wave"></use>
+  </svg>
+  </div>
+     <div class="card__textarea-wrap">
+  <label>
+  <textarea
+  class="card__text"
+  placeholder="Start typing your text here..."
+  name="text">
+${item.title}
+</textarea>
+  </label>
+</div>
       <div class="card__settings">
         <div class="card__details">
           <div class="card__dates">
@@ -203,10 +182,13 @@ export const createTaskHTML = (item, days, color) => {
         ${createCardImg(item)}
         ${createCardColors(item, color)}
       </div>
-      ${createStatusBtns()}
+      <div class="card__status-btns">
+      <button class="card__save" type="submit">save</button>
+      <button class="card__delete" type="button">delete</button>
+      </div>
     </div>
   </form>
 </article>
-`;
+`.trim();
 };
 
