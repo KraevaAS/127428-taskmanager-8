@@ -1,13 +1,8 @@
 import {createTaskHTML} from './cards.js';
+import {createElement} from './create-element';
 
 const WEEK_DAYS = [`Mo`, `Tu`, `We`, `Th`, `Fr`, `Sa`, `Su`];
 const CARD_COLORS = [`black`, `yellow`, `blue`, `green`, `pink`];
-
-const createElement = (template) => {
-  const newElement = document.createElement(`div`);
-  newElement.innerHTML = template;
-  return newElement.firstChild;
-};
 
 export class Task {
   constructor(item) {
@@ -96,7 +91,7 @@ export class TaskEdit {
 
   unbind() {
     this._element.querySelector(`.card__form`)
-      .removeEventListener(`submit`, this._onSubmitButtonClick.bind(this));
+      .removeEventListener(`click`, this._onSubmitButtonClick.bind(this));
   }
 
   render() {
