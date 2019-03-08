@@ -10,6 +10,8 @@ class Component {
       throw new Error(`Can't instantiate BaseComponent, only concrete one.`);
     }
 
+    this._days = WEEK_DAYS;
+    this._colors = CARD_COLORS;
     this._element = null;
   }
 
@@ -39,15 +41,11 @@ class Component {
 
 }
 
-
 export class Task extends Component {
   constructor(item) {
     super();
-    this._days = WEEK_DAYS;
-    this._colors = CARD_COLORS;
     this._task = item;
     this._isEdit = false;
-    this._element = null;
     this._onEdit = null;
   }
 
@@ -80,11 +78,8 @@ export class Task extends Component {
 export class TaskEdit extends Component {
   constructor(item) {
     super();
-    this._days = WEEK_DAYS;
-    this._colors = CARD_COLORS;
     this._task = item;
     this._isEdit = true;
-    this._element = null;
     this._onSubmit = null;
   }
 
