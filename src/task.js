@@ -4,6 +4,46 @@ import {createElement} from './create-element';
 const WEEK_DAYS = [`Mo`, `Tu`, `We`, `Th`, `Fr`, `Sa`, `Su`];
 const CARD_COLORS = [`black`, `yellow`, `blue`, `green`, `pink`];
 
+class Component {
+  constructor() {
+    if (new.target === Component) {
+      throw new Error(`Can't instantiate BaseComponent, only concrete one.`);
+    }
+
+    this._element = null;
+  }
+
+  get element() {
+    return this._element;
+  }
+
+  get template() {
+    throw new Error(`You have to define template.`);
+  }
+
+  bind() {}
+
+  unbind() {}
+
+  render() {
+    this._element = createElement(this.template);
+    this.bind();
+    return this._element;
+  }
+
+  unrender() {
+    this.unbind();
+    this._element.remove();
+    this._element = null;
+  }
+
+  createListeners() {}
+
+  removeListeners() {}
+
+}
+
+
 export class Task {
   constructor(item) {
     this._days = WEEK_DAYS;
