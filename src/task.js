@@ -37,25 +37,18 @@ class Component {
     this._element = null;
   }
 
-  createListeners() {}
-
-  removeListeners() {}
-
 }
 
 
-export class Task {
+export class Task extends Component {
   constructor(item) {
+    super();
     this._days = WEEK_DAYS;
     this._colors = CARD_COLORS;
     this._task = item;
     this._isEdit = false;
     this._element = null;
     this._onEdit = null;
-  }
-
-  get element() {
-    return this._element;
   }
 
   _onEditButtonClick() {
@@ -82,21 +75,11 @@ export class Task {
       .removeEventListener(`click`, this._onEditButtonClick.bind(this));
   }
 
-  render() {
-    this._element = createElement(this.template);
-    this.bind();
-    return this._element;
-  }
-
-  unrender() {
-    this.unbind();
-    this._element = null;
-  }
-
 }
 
-export class TaskEdit {
+export class TaskEdit extends Component {
   constructor(item) {
+    super();
     this._days = WEEK_DAYS;
     this._colors = CARD_COLORS;
     this._task = item;
@@ -116,10 +99,6 @@ export class TaskEdit {
     this._onSubmit = fn;
   }
 
-  get element() {
-    return this._element;
-  }
-
   get template() {
     return createTaskHTML(this._task, this._days, this._colors, this._isEdit);
   }
@@ -132,17 +111,6 @@ export class TaskEdit {
   unbind() {
     this._element.querySelector(`.card__form`)
       .removeEventListener(`click`, this._onSubmitButtonClick.bind(this));
-  }
-
-  render() {
-    this._element = createElement(this.template);
-    this.bind();
-    return this._element;
-  }
-
-  unrender() {
-    this.unbind();
-    this._element = null;
   }
 
 }
