@@ -1,26 +1,52 @@
 import {createTaskHTML} from './cards.js';
+import {createElement} from './create-element';
 
 const WEEK_DAYS = [`Mo`, `Tu`, `We`, `Th`, `Fr`, `Sa`, `Su`];
 const CARD_COLORS = [`black`, `yellow`, `blue`, `green`, `pink`];
 
-const createElement = (template) => {
-  const newElement = document.createElement(`div`);
-  newElement.innerHTML = template;
-  return newElement.firstChild;
-};
+class Component {
+  constructor() {
+    if (new.target === Component) {
+      throw new Error(`Can't instantiate BaseComponent, only concrete one.`);
+    }
 
-export class Task {
-  constructor(item) {
     this._days = WEEK_DAYS;
     this._colors = CARD_COLORS;
-    this._task = item;
-    this._isEdit = false;
     this._element = null;
-    this._onEdit = null;
   }
 
   get element() {
     return this._element;
+  }
+
+  get template() {
+    throw new Error(`You have to define template.`);
+  }
+
+  bind() {}
+
+  unbind() {}
+
+  render() {
+    this._element = createElement(this.template);
+    this.bind();
+    return this._element;
+  }
+
+  unrender() {
+    this.unbind();
+    this._element.remove();
+    this._element = null;
+  }
+
+}
+
+export class Task extends Component {
+  constructor(item) {
+    super();
+    this._task = item;
+    this._isEdit = false;
+    this._onEdit = null;
   }
 
   _onEditButtonClick() {
@@ -47,26 +73,13 @@ export class Task {
       .removeEventListener(`click`, this._onEditButtonClick.bind(this));
   }
 
-  render() {
-    this._element = createElement(this.template);
-    this.bind();
-    return this._element;
-  }
-
-  unrender() {
-    this.unbind();
-    this._element = null;
-  }
-
 }
 
-export class TaskEdit {
+export class TaskEdit extends Component {
   constructor(item) {
-    this._days = WEEK_DAYS;
-    this._colors = CARD_COLORS;
+    super();
     this._task = item;
     this._isEdit = true;
-    this._element = null;
     this._onSubmit = null;
   }
 
@@ -81,10 +94,6 @@ export class TaskEdit {
     this._onSubmit = fn;
   }
 
-  get element() {
-    return this._element;
-  }
-
   get template() {
     return createTaskHTML(this._task, this._days, this._colors, this._isEdit);
   }
@@ -96,18 +105,7 @@ export class TaskEdit {
 
   unbind() {
     this._element.querySelector(`.card__form`)
-      .removeEventListener(`submit`, this._onSubmitButtonClick.bind(this));
-  }
-
-  render() {
-    this._element = createElement(this.template);
-    this.bind();
-    return this._element;
-  }
-
-  unrender() {
-    this.unbind();
-    this._element = null;
+      .removeEventListener(`click`, this._onSubmitButtonClick.bind(this));
   }
 
 }
